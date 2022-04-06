@@ -76,6 +76,11 @@ function Login() {
     }
     return (
         <div id="loginPage">
+            <h3>LOGIN Page</h3>
+            Username <input type="text" id="userId" ></input>
+            Password <input type="text" id="password" ></input>
+            <button onClick={loginFn} >Login</button>
+
             {/*
                 
                 For Login Part, few minor checks that we can add
