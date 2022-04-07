@@ -76,25 +76,71 @@ function Login() {
     }
     return (
         <div id="loginPage">
-            {/*
-                
-                For Login Part, few minor checks that we can add
-                “name” : should not be empty
-                "password": should not be empty
-                "message" element to display the proper error message
+             <div id="loginPage" className="bg-primary d-flex justify-content-center align-items-center vh-100">
+
+<div className="card m-5 p-5" >
+    <div className="row m-2">
+        <div className="col">
+
+            {
+                !showSignup ? (
+                    <div >
+                        <h4 className="text-center">Login</h4>
+                        <div className="input-group m-1">
+                            <input type="text" className="form-control" placeholder="User Id" id="userId" required />
+                        </div>
+                        <div className="input-group m-1">
+                            <input type="password" className="form-control" placeholder="Password" id="password" required />
+                        </div>
+
+                        <div className="input-group m-1">
+                            <input type="submit" className="form-control btn btn-primary" value="Log in" onClick={loginFn} />
+                        </div>
+                        <div className="signup-btn text-right text-info" onClick={toggleSignup}>Dont have an Account ? Signup</div>
+                        <div className="auth-error-msg text-danger text-center">{message}</div>
+                    </div>
+                ) : (
+                    <div>
+                        <h4 className="text-center">Signup</h4>
+                        <div className="input-group m-1">
+                            <input type="text" className="form-control" placeholder="Username" id="username" required />
+                        </div>
+                        <div className="input-group m-1">
+                            <input type="text" className="form-control" placeholder="Email" id="email" required />
+                        </div>
+                        <div className="input-group m-1">
+                            <input type="password" className="form-control" placeholder="Password" id="password" required />
+                        </div>
 
 
-                --- For SignUp Part maintain the following checks: ---
+                        <div className="input-group m-1">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-light px-5">Select user Type</button>
+                                <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false" id="userType">
+                                    <span class="visually-hidden">Toggle Dropdown</span>
+                                </button>
 
-                “name” : should not be empty
-                “userId” : should not be empty
-                “email” : email validation is performed at backend no need to do it on frontend
-                “userType” : ADMIN | ENGINEER | CUSTOMER (From API it can be only engineer or customer)
-                "password": No validation is on password, better we do it on frontend
 
-                "message" element to display the proper error message
+                                <ul class="dropdown-menu dropdown-menu-lg-end">
+                                    <li><button class="dropdown-item" type="button" value="CUSTOMER">CUSTOMER</button></li>
+                                    <li><button class="dropdown-item" type="button" value="ENGINEER">ENGINEER</button></li>
+                                    <li><button class="dropdown-item" type="button" value="ADMIN">ADMIN</button></li>
+                                </ul>
+                            </div>
+                        </div>
 
-            */}
+                        <div className="input-group m-1">
+                            <input type="submit" className="form-control btn btn-primary m-1" value="Sign up" onClick={signupFn} />
+                        </div>
+                        <div className="signup-btn text-center text-info" onClick={toggleSignup}>Already have an Account ? Login</div>
+                        <div className="auth-error-msg text-danger text-center">{message}</div>
+                    </div>
+                )
+            }
+        </div>
+    </div>
+</div>
+</div>
             
         </div>
     )
