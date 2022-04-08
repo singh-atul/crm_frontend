@@ -9,7 +9,7 @@ import './App.css';
 import Login from "./pages/Login";
 // import Customer from "./pages/Customer";
 // import Engineer from "./pages/Engineer";
-// import Admin from "./pages/Admin";
+import Admin from "./pages/Admin";
 
 function App() {
   return (
@@ -24,7 +24,7 @@ function App() {
               </Suspense>
             }
         />
-        {/* <Route
+        <Route
             exact
             path="/admin"
             element={
@@ -33,7 +33,7 @@ function App() {
               </Suspense>
             }
         />
-        <Route
+        {/* <Route
             exact
             path="/customer"
             element={
