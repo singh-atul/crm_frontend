@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import axios from 'axios';
 import '../styles/login.css';
-import { Link } from "react-router-dom";
 import { Dropdown, DropdownButton, InputGroup } from "react-bootstrap";
 
 const BASE_URL = 'http://127.0.0.1:8080';
@@ -82,13 +81,13 @@ function Login() {
     
 
     const toggleSignup = () => {
+        console.log(process.env.BASE_UUU);
         setShowSignup(!showSignup);
 
         
     }
 
     const handleSelect = (e) => {
-        console.log("###",e);
         setValue(e)
 
     }
