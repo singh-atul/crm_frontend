@@ -53,11 +53,12 @@ function Login() {
 
         const data = {
             name: username.value,
-            userId:userId.value,
+            // userId:userId.value,
             email:email.value,
             userType:userType.value,
             password: password.value
         };
+        console.log(data);
 
         axios.post(BASE_URL + '/crm/api/v1/auth/signup', data)
             .then(function (response) {
@@ -72,6 +73,7 @@ function Login() {
     }
 
     const toggleSignup = () => {
+
         setShowSignup(!showSignup);
     }
     return (
@@ -103,6 +105,9 @@ function Login() {
                     <div>
                         <h4 className="text-center">Signup</h4>
                         <div className="input-group m-1">
+                            <input type="text" className="form-control" placeholder="User Id" id="userId" required />
+                        </div>
+                        <div className="input-group m-1">
                             <input type="text" className="form-control" placeholder="Username" id="username" required />
                         </div>
                         <div className="input-group m-1">
@@ -115,10 +120,10 @@ function Login() {
 
                         <div className="input-group m-1">
                             <div class="btn-group">
-                                <button type="button" class="btn btn-light px-5">Select user Type</button>
-                                <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false" id="userType">
+                                <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">Select user Type</button>
+                                {/* <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false" id="userType">
                                     <span class="visually-hidden">Toggle Dropdown</span>
-                                </button>
+                                </button> */}
 
 
                                 <ul class="dropdown-menu dropdown-menu-lg-end">
@@ -128,6 +133,8 @@ function Login() {
                                 </ul>
                             </div>
                         </div>
+
+                        
 
                         <div className="input-group m-1">
                             <input type="submit" className="form-control btn btn-primary m-1" value="Sign up" onClick={signupFn} />
