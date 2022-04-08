@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from 'axios';
 import '../styles/login.css';
 import { Link } from "react-router-dom";
-import { Dropdown, DropdownButton, InputGroup } from "react-bootstrap";
+import Dropdown from "../component/Dropdown";
 
 const BASE_URL = 'http://127.0.0.1:8080';
 
@@ -77,9 +77,14 @@ function Login() {
         setShowSignup(!showSignup);
     }
 
-    const handleSelect = (e) => {
-        console.log(e);
-        setValue(e)
+    const options = [
+        { label: 'CUSTOMER', value: 'CUSTOMER' },
+        { label: 'ENGINEER', value: 'ENGINEER' },
+        { label: 'ADMIN', value: 'ADMIN' },
+    ];
+    const handleChange = (e) => {
+        console.log(e.target.value);
+        return setValue(e.target.value)
 
     }
     const [value, setValue] = useState("CUSTOMER")
@@ -111,34 +116,26 @@ function Login() {
                                 ) : (
                                     <div>
                                         <h4 className="text-center">Signup</h4>
-                                        <div className="input-group m-1">
+                                        <div className=" m-1">
                                             <input type="text" className="form-control" placeholder="Username" id="username" required />
                                         </div>
-                                        <div className="input-group m-1">
+                                        <div className=" m-1">
                                             <input type="text" className="form-control" placeholder="Email" id="email" required />
                                         </div>
-                                        <div className="input-group m-1">
+                                        <div className=" m-1">
                                             <input type="password" className="form-control" placeholder="Password" id="password" required />
                                         </div>
 
 
                                         <div className="input-group m-1">
-                                        <span className="text-muted my-2 mx-2"> User Type</span>
-                                            <DropdownButton
-                                                align="end"
-                                                title={value}
-                                                id="userType"
-                                                onSelect={handleSelect}
-                                               variant="light"
-                                               className="mx-1"
-                                            >
-                                                <Dropdown.Item eventKey="CUSTOMER">CUSTOMER</Dropdown.Item>
-                                                <Dropdown.Item eventKey="ENGINEER">ENGINEER</Dropdown.Item>
-                                                <Dropdown.Item eventKey="ADMIN">ADMIN</Dropdown.Item>
-
-                                            </DropdownButton>
+                                            <Dropdown
+                                                label="User Type"
+                                                options={options}
+                                                value={value}
+                                                onChange={handleChange}
+                                            />
                                         </div>
-                                    
+
 
                                         <div className="input-group m-1">
                                             <input type="submit" className="form-control btn btn-primary m-1" value="Sign up" onClick={signupFn} />
