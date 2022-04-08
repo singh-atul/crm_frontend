@@ -9,6 +9,7 @@ const BASE_URL = 'http://127.0.0.1:8080';
 function Login() {
     const [showSignup, setShowSignup] = useState(false);
     const [message, setMessage] = useState("");
+
     const loginFn = () => {
         const userId = document.getElementById("userId");
         const password = document.getElementById("password");
@@ -39,8 +40,10 @@ function Login() {
                 }
             })
             .catch(function (error) {
-                console.log(error);
-
+                if(error.response.status==400)
+                    setMessage(error.response.data.message);
+                else
+                    console.log(error);
             });
     }
 
@@ -48,8 +51,8 @@ function Login() {
         const username = document.getElementById("username");
         const userId = document.getElementById("userId");
         const email = document.getElementById("email");
-        const userType = document.getElementById("userType");
         const password = document.getElementById("password");
+        const userType = document.getElementById("userType")
 
 
 
@@ -57,9 +60,10 @@ function Login() {
             name: username.value,
             userId: userId.value,
             email: email.value,
-            userType: userType.value,
+            userType: userType,
             password: password.value
         };
+        console.log(data);
 
         axios.post(BASE_URL + '/crm/api/v1/auth/signup', data)
             .then(function (response) {
@@ -68,14 +72,23 @@ function Login() {
                 }
             })
             .catch(function (error) {
-                console.log(error);
-                setMessage(error.data.message)
+                if(error.response.status==400)
+                    setMessage(error.response.data.message);
+                else
+                    console.log(error);
             });
     }
 
+    
+
     const toggleSignup = () => {
+        console.log(process.env.BASE_UUU);
         setShowSignup(!showSignup);
+
+        
     }
+
+    const [value, setValue] = useState("CUSTOMER")
 
     const options = [
         { label: 'CUSTOMER', value: 'CUSTOMER' },
@@ -87,7 +100,7 @@ function Login() {
         return setValue(e.target.value)
 
     }
-    const [value, setValue] = useState("CUSTOMER")
+    
     return (
         <div id="loginPage">
             <div id="loginPage" className="bg-primary d-flex justify-content-center align-items-center vh-100">
@@ -133,6 +146,7 @@ function Login() {
                                                 options={options}
                                                 value={value}
                                                 onChange={handleChange}
+                                                id="userType"
                                             />
                                         </div>
 
