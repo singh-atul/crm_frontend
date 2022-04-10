@@ -15,33 +15,18 @@ import '../styles/admin.css';
 const BASE_URL = 'http://127.0.0.1:8080';
 
 function Admin() {
-
-    const [test, setTest] = useState("454");
-    
-    
-
     const [userList, setUserList] = useState([]);
     const [userDetail, setUserDetail] = useState({});
     const [sidebar, setSidebar] = useState(false);
+    const [message,setMessage] = useState("");
+
     const showSidebar = () => setSidebar(true);
     const closeSideBar = () => {
         setSidebar(false);
         setUserDetail({});
     }
- 
-    const changeUserDetail  = (e) => {
-        if (e.target.name=="status")
-            userDetail.userStatus = e.target.value
-        else if(e.target.name=="name")
-            userDetail.name = e.target.value
-        else if(e.target.name=="type")
-            userDetail.userTypes = e.target.value
-        setUserDetail(userDetail)
-        setSidebar(e.target.value);
-    }
-
     
-    const [message,setMessage] = useState("");
+    
     useEffect(() => {
         (async () => {
             fetchUsers("");
@@ -100,7 +85,16 @@ function Admin() {
         });
     }
 
-
+    const changeUserDetail  = (e) => {
+        if (e.target.name=="status")
+            userDetail.userStatus = e.target.value
+        else if(e.target.name=="name")
+            userDetail.name = e.target.value
+        else if(e.target.name=="type")
+            userDetail.userTypes = e.target.value
+        setUserDetail(userDetail)
+        setSidebar(e.target.value);
+    }
 
 
     // const userColumns = React.useMemo(
