@@ -1,3 +1,7 @@
+//TO DO
+// Add a functionality to show message such as if connection is lost to server
+// Proper error message on updateing the table
+//[Suggestion] In side bar we can add tickets id specific to that user
 
 import React, {useEffect, useState } from "react";
 // import CssBaseline from '@material-ui/core/CssBaseline'
@@ -11,8 +15,36 @@ import '../styles/admin.css';
 const BASE_URL = 'http://127.0.0.1:8080';
 
 
+class NameForm extends React.Component {
+    constructor() {
+      super();
+      this.state = {value: '565656'};
+      this.handleChange = this.handleChange.bind(this);
+      this.handleSubmit = this.handleSubmit.bind(this);
+    }
   
+    handleChange(event) {    this.setState({value: event.target.value});  }
+    handleSubmit(event) {
+      alert('A name was submitted: ' + this.state.value);
+      event.preventDefault();
+    }
+  
+    render() {
+      return (
+        <form onSubmit={this.handleSubmit}>
+          <label>
+            Name:
+            <input type="text" value={this.state.value} onChange={this.handleChange} />        </label>
+          <input type="submit" value="Submit" />
+        </form>
+      );
+    }
+  }
 function Admin() {
+
+    const [test, setTest] = useState("454");
+    
+    
 
     const [userList, setUserList] = useState([]);
     const [userDetail, setUserDetail] = useState({});
@@ -22,7 +54,19 @@ function Admin() {
         setSidebar(false);
         setUserDetail({});
     }
+ 
+    const changeUserDetail  = (e) => {
+        if (e.target.name=="status")
+            userDetail.userStatus = e.target.value
+        else if(e.target.name=="name")
+            userDetail.name = e.target.value
+        else if(e.target.name=="type")
+            userDetail.userTypes = e.target.value
+        setUserDetail(userDetail)
+        setSidebar(e.target.value);
+    }
 
+    
     const [message,setMessage] = useState("");
     useEffect(() => {
         (async () => {
@@ -53,32 +97,33 @@ function Admin() {
     
  
 
-    const updateUserDetail=(e)=>{
-        e.preventDefault()
-        // Need to complete, 
-        // currently the status of form elements are not changing when the value is set by default
+    const updateUserDetail=()=>{
+        // Need to test
+        const data = {
+            "userType":userDetail.userType,
+			"userStatus":userDetail.userType,
+            "userName" : userDetail.name
+        }
+        axios.put(BASE_URL + '/crm/api/v1/users/'+localStorage.getItem("userId"),{
+            headers: {
+                'x-access-token': localStorage.getItem("token")
+              }
+        }).then(function (response) {
+            if (response.status==200) {
+                console.log(response);
+                setMessage(response.message);
+                let idx = userList.findIndex((obj => obj.userId==userDetail.userId));
+                userList[idx]=userDetail
+                closeSideBar();
 
-        // const data = {
-        //     "userType":userDetail.userType,
-		// 	"userStatus":userDetail.userType,
-        //     "userName" : userDetail.name
-        // }
-        // axios.put(BASE_URL + '/crm/api/v1/users/'+userDetail.userId,{
-        //     headers: {
-        //         'x-access-token': localStorage.getItem("token")
-        //       },data
-        // }).then(function (response) {
-        //     if (response.status==200) {
-        //         console.log(response);
-        //         setMessage(response.message);
-        //     }
-        // })
-        // .catch(function (error) {
-        //     if(error.status==400)
-        //         setMessage(error.message);
-        //     else
-        //         console.log(error);
-        // });
+            }
+        })
+        .catch(function (error) {
+            if(error.status==400)
+                setMessage(error.message);
+            else
+                console.log(error);
+        });
     }
 
 
@@ -123,7 +168,7 @@ function Admin() {
     
     return (
         <div className="container my-2">
-            
+                            
             <h3 class="text-primary">ADMIN DASHBOARD</h3>
             
             <MaterialTable
@@ -190,14 +235,29 @@ function Admin() {
                         <div className="card-body">
                             <h5 className="card-subtitle mb-2 text-primary">User ID: {userDetail.userId}</h5>
                             <hr />
-                            Name: <input type="text" name="name"value={userDetail.name}></input>
+                            Name: <input type="text" name="name"value={userDetail.name} onChange={changeUserDetail}></input>
                             Email: {userDetail.email}
-                            Type: <input type="text" name="type" value={userDetail.userTypes}></input>
-                            Status: <input type="text" name="status" value={userDetail.userStatus || ''} ></input>
+                            
+                            Type:
+                            <select name="type" value={userDetail.userTypes} onChange={changeUserDetail}>
+                            <option value="ADMIN">ADMIN</option>
+                            <option value="CUSTOMER">CUSTOMER</option>
+                            <option value="ENGINEER">ENGINEER</option>
+                            </select>
+                            
+                            
+                            Status:
+                            
+                            <select name="status" value={userDetail.userStatus} onChange={changeUserDetail}>
+                            <option value="APPROVED">APPROVED</option>
+                            <option value="REJECTED">REJECTED</option>
+                            <option value="PENDING">PENDING</option>
+                            </select>
+                            
                             
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-success">Success</button>
+                    <button type="button" class="btn btn-success" onClick={() => updateUserDetail()}>Success</button>
                     <button type="button" class="btn btn-danger" onClick={() => closeSideBar()}>Cancel</button>
                     </form>
                     
