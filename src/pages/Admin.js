@@ -1,7 +1,10 @@
 
 import React, {useEffect, useState } from "react";
-import CssBaseline from '@material-ui/core/CssBaseline'
-import {SelectFilter,Records} from '../components/Tables/Table'
+// import CssBaseline from '@material-ui/core/CssBaseline'
+// import {SelectFilter,Records} from '../components/Tables/Table'
+import MaterialTable from "@material-table/core";
+import { ExportCsv, ExportPdf } from '@material-table/exporters';
+
 
 import axios from 'axios';
 import '../styles/admin.css';
@@ -10,12 +13,16 @@ const BASE_URL = 'http://127.0.0.1:8080';
 
   
 function Admin() {
-    const [userType, setUserType] = useState('');
-    const [userStatus, setUserStatus] = useState('');
-    const [userName, setUserName] = useState('');
+
     const [userList, setUserList] = useState([]);
-    const [userDetail, setUserDetail] = useState([]);
-    
+    const [userDetail, setUserDetail] = useState({});
+    const [sidebar, setSidebar] = useState(false);
+    const showSidebar = () => setSidebar(true);
+    const closeSideBar = () => {
+        setSidebar(false);
+        setUserDetail({});
+    }
+
     const [message,setMessage] = useState("");
     useEffect(() => {
         (async () => {
@@ -24,14 +31,17 @@ function Admin() {
       }, []);
 
     const fetchUsers = (userId) => {
+        console.log(userId);
         axios.get(BASE_URL + '/crm/api/v1/users/'+userId,{
             headers: {
                 'x-access-token': localStorage.getItem("token")
               }
         }).then(function (response) {
             if (response.status==200) {
-                if(userId)  
+                if(userId) { 
                     setUserDetail(response.data[0])
+                    showSidebar()
+                }
                 else
                     setUserList(response.data);
             }
@@ -42,16 +52,11 @@ function Admin() {
     }
     
  
-    const getUserDetail = (userId)=>{
-        fetchUsers(userId);
-
-        
-    }
 
     const updateUserDetail=(e)=>{
         e.preventDefault()
-        //Need to complete, 
-        //currently the status of form elements are not changing when the value is set by default
+        // Need to complete, 
+        // currently the status of form elements are not changing when the value is set by default
 
         // const data = {
         //     "userType":userDetail.userType,
@@ -78,69 +83,109 @@ function Admin() {
 
 
 
-    const userColumns = React.useMemo(
-        () => [
-          {
-            Header: 'USER ID',
-            accessor: 'userId',
-            Cell: ({ cell: { value } }) => {
-            return(
-                
-                <button value={value} onClick={() => getUserDetail(value)}>{value}</button>
-            )
-            }
-          },
-          {
-            Header: 'USER NAME',
-            accessor: 'name',
-          },
-          {
-            Header: 'EMAIL',
-            accessor: 'email',
-          },
-          {
-            Header: 'ROLE',
-            accessor: 'userTypes',
-            Filter: SelectFilter,
-            filter: "includes"
-          },
-          {
-            Header: 'STATUS',
-            accessor: 'userStatus',
-            Filter: SelectFilter,
-            filter: "includes"
-          }
-        ],
-        []
-      )
-    
 
+    // const userColumns = React.useMemo(
+    //     () => [
+    //       {
+    //         Header: 'USER ID',
+    //         accessor: 'userId',
+    //         Cell: ({ cell: { value } }) => {
+    //         return(
+    //              <u key={value} onClick={() => fetchUsers(value)}>{value}</u>
+    //         )
+    //         }
+    //       },
+    //       {
+    //         Header: 'USER NAME',
+    //         accessor: 'name',
+    //       },
+    //       {
+    //         Header: 'EMAIL',
+    //         accessor: 'email',
+    //       },
+    //       {
+    //         Header: 'ROLE',
+    //         accessor: 'userTypes',
+    //         Filter: SelectFilter,
+    //         filter: "includes"
+    //       },
+    //       {
+    //         Header: 'STATUS',
+    //         accessor: 'userStatus',
+    //         Filter: SelectFilter,
+    //         filter: "includes"
+    //       }
+    //     ],
+    //     []
+    //   )
+    
+     
+    
     return (
         <div className="container my-2">
+            
             <h3 class="text-primary">ADMIN DASHBOARD</h3>
+            
+            <MaterialTable
+                onRowClick={(event, rowData) => fetchUsers(rowData.userId)}
+                    
+                data={userList}
+                columns={[
+                    {
+                        title: "USER ID",
+                        field: "userId",
 
-            <div className="row my-4">
-
-
-                {/*     table map values here, search here */}
-
-                <div className="col">
-
-                    <div className="card shadow" >
+                    },
+                    {
+                    title: "Name",
+                    field: "name",
+            
+                    },
+                    {
+                    title: "EMAIL",
+                    field: "email",
+                    filtering:false
+                    },
+                    {
+                    title: "ROLE",
+                    field: "userTypes",
+                    lookup: {
+                        "ADMIN": "ADMIN",
+                        "CUSTOMER": "CUSTOMER",
+                        "ENGINEER": "ENGINEER",
                         
-                        <div><h4 className="card-subtitle center m-2 text-primary">USER RECORDS</h4></div>
-                        <CssBaseline />
-                        <Records columns={userColumns} data={userList} />
-                    </div>
-                </div>
-
-
-
-                {/* Form update user details here  */}                   
+                    },
+                    },
+                    {
+                    title: "Status",
+                    field: "userStatus",
+                    lookup: {
+                        "APPROVED": "APPROVED",
+                        "PENDING": "PENDING",
+                        "CANCELED": "CANCELED",
                         
+                    },
+                    },
+                ]}
+                options={{
+                    filtering: true,
+                    sorting: true,
+                    exportMenu: [{
+                        label: 'Export PDF',
+                        exportFunc: (cols, datas) => ExportPdf(cols, datas, 'userRecords')
+                      }, {
+                        label: 'Export CSV',
+                        exportFunc: (cols, datas) => ExportCsv(cols, datas, 'userRecords')
+                      }]
+                }}
+                title="USER RECORDS"
+                />
+            
 
-                <div className="col">
-                    <form onSubmit={updateUserDetail}>
+            {sidebar ? (
+            <div className="nav-menuapi">
+                
+                <form onSubmit={updateUserDetail}>
                     <div className="card shadow" style={{ width: 15 + 'rem' }}>
                         <div className="card-body">
                             <h5 className="card-subtitle mb-2 text-primary">User ID: {userDetail.userId}</h5>
@@ -148,17 +193,44 @@ function Admin() {
                             Name: <input type="text" name="name"value={userDetail.name}></input>
                             Email: {userDetail.email}
                             Type: <input type="text" name="type" value={userDetail.userTypes}></input>
-                            Status: <input type="text" name="status" value={userDetail.userStatus} ></input>
+                            Status: <input type="text" name="status" value={userDetail.userStatus || ''} ></input>
                             
                         </div>
                     </div>
-                    <button type="submit">Submit</button>
+                    <button type="submit" class="btn btn-success">Success</button>
+                    <button type="button" class="btn btn-danger" onClick={() => closeSideBar()}>Cancel</button>
                     </form>
-                </div>
-
+                    
+            
             </div>
+            
+        ) : (
+            ""
+        )}
+            
+            
+            {/* <div className="row my-4">
 
 
+                {/*     table map values here, search here */}
+                {/* <div className="card shadow" >
+                <div class="table-responsive">
+
+                    
+                        <div><h4 className="card-subtitle center m-2 text-primary">USER RECORDS</h4></div>
+                        <CssBaseline />
+                        <Records columns={userColumns} data={userList} />
+                    </div>
+                </div> */}
+
+
+
+                {/* Form update user details here  */}                   
+                        
+
+            {/* </div> */}
+
+            
 
         </div>
     )
