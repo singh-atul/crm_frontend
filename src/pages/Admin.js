@@ -14,32 +14,6 @@ import axios from 'axios';
 import '../styles/admin.css';
 const BASE_URL = 'http://127.0.0.1:8080';
 
-
-class NameForm extends React.Component {
-    constructor() {
-      super();
-      this.state = {value: '565656'};
-      this.handleChange = this.handleChange.bind(this);
-      this.handleSubmit = this.handleSubmit.bind(this);
-    }
-  
-    handleChange(event) {    this.setState({value: event.target.value});  }
-    handleSubmit(event) {
-      alert('A name was submitted: ' + this.state.value);
-      event.preventDefault();
-    }
-  
-    render() {
-      return (
-        <form onSubmit={this.handleSubmit}>
-          <label>
-            Name:
-            <input type="text" value={this.state.value} onChange={this.handleChange} />        </label>
-          <input type="submit" value="Submit" />
-        </form>
-      );
-    }
-  }
 function Admin() {
 
     const [test, setTest] = useState("454");
