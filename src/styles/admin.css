@@ -3,6 +3,7 @@
 }
 
 .nav-menuapi {
+   
     background-color: white;
     width: 50%;
     height: 100%;
@@ -14,10 +15,19 @@
     overflow-x: hidden;
     transition: 0.5s;
     padding-top: 10px;
-    margin: 5px;
     text-align: left;
     padding: 5px;
     width: 30%;
+  }
+
+  .vhs{
+      height: 80vh;
+  }
+
+  .gradients{
+    background-color: #2a2a72;
+    background-image: linear-gradient(315deg, #2a2a72 0%, #009ffd 74%);
+    
   }
 
   

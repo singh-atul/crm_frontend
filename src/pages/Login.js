@@ -5,6 +5,7 @@ import { Dropdown, DropdownButton, InputGroup } from "react-bootstrap";
 
 const BASE_URL = 'http://127.0.0.1:8080';
 
+
 function Login() {
     const [showSignup, setShowSignup] = useState(false);
     const [message, setMessage] = useState("");
@@ -121,15 +122,15 @@ function Login() {
                                     <div>
                                         <h4 className="text-center">Signup</h4>
                                         <div>
-                                            <input type="text" className="form-control" placeholder="User Id" id="userId"  required />
+                                            <input type="text" className="form-control m-1" placeholder="User Id" id="userId"  required />
                                         </div>
                                         
                                         <div>
-                                            <input type="text" className="form-control" placeholder="Username" id="username"  required />
+                                            <input type="text" className="form-control m-1" placeholder="Username" id="username"  required />
                                         </div>
-                                            <input type="text" className="form-control" placeholder="Email" id="email" required />
-                                        <div className="input-group">
-                                            <input type="password" className="form-control" placeholder="Password" id="password"  required />
+                                            <input type="text" className="form-control m-1" placeholder="Email" id="email" required />
+                                        <div>
+                                            <input type="password" className="form-control m-1" placeholder="Password" id="password"  required />
                                         </div>
 
 
