@@ -11,7 +11,7 @@ const LogoutBtn = () => {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className=" me-auto mb-2 mb-lg-0">
                 <form className="d-flex" onSubmit={logoutBtn}>
-                    <button className="btn btn-outline-primary" type="submit">Logout</button>
+                    <label className="text-white" type="submit">Logout</label>
                 </form>
             </ul>
         </div>
