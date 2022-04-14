@@ -13,7 +13,7 @@ function Sidebar() {
       <CSidebarNav>
       <CNavItem href="#" className="bg-dark">
       <i className="bi bi-bar-chart-fill text-white m-2"></i>
-          <h5 className="text-white mx-3  my-1 fw-bolder">TETHER</h5>
+          <h5 className="text-white mx-3  my-1 fw-bolder">TETHERX</h5>
 
         </CNavItem>
         <CNavTitle className='text-light fw-normal'>
