@@ -3,6 +3,7 @@ import MaterialTable from "@material-table/core";
 import { ExportCsv, ExportPdf } from '@material-table/exporters';
 import { Modal, Button, ProgressBar } from 'react-bootstrap'
 import Sidebar from '../components/Sidebar'
+import Chart from '../components/Chart'
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 
 
@@ -110,13 +111,13 @@ function Admin() {
                     <div >
                         <h3 className="text-primary text-center">Welcome, {currUserName}</h3>
                         <p className="text-muted text-center">Take a quick looks at your admin stats below. </p>
-                        <ProgressBar variant="secondary" now={80} />
+                      
 
                         {/* card */}
-                        <div className="row my-5 mx-2 text-center">
+                        <div className="row my-5 ">
 
                             <div className="col-xs-12 col-lg-3 col-md-6 my-1">
-                                <div className="card  cardItem shadow  bg-primary text-dark bg-opacity-25 borders-b" style={{ width: 15 + 'rem' }}>
+                                <div className="card  cardItem shadow-lg  bg-primary text-dark bg-opacity-25 borders-b" style={{ width: 15 + 'rem' }}>
                                     <div className="card-body">
                                         <h5 className="card-subtitle mb-2"><i class="bi bi-pencil text-primary mx-2"></i>Open </h5>
                                         <hr />
@@ -137,7 +138,7 @@ function Admin() {
                             </div>
 
                             <div className="col-xs-12 col-lg-3 col-md-6 my-1">
-                                <div className="card shadow  bg-warning text-dark bg-opacity-25 borders-y" style={{ width: 15 + 'rem' }}>
+                                <div className="card shadow-lg  bg-warning text-dark bg-opacity-25 borders-y" style={{ width: 15 + 'rem' }}>
                                     <div className="card-body">
                                         <h5 className="card-subtitle mb-2"><i class="bi bi-lightning-charge text-warning mx-2"></i>Progress </h5>
                                         <hr />
@@ -157,7 +158,7 @@ function Admin() {
                             </div>
 
                             <div className="col-xs-12 col-lg-3 col-md-6 my-1">
-                                <div className="card shadow  bg-success text-dark bg-opacity-25 borders-g" style={{ width: 15 + 'rem' }}>
+                                <div className="card shadow-lg  bg-success text-dark bg-opacity-25 borders-g" style={{ width: 15 + 'rem' }}>
                                     <div className="card-body">
                                         <h5 className="card-subtitle mb-2"><i class="bi bi-check2-circle text-success mx-2"></i>Closed </h5>
                                         <hr />
@@ -177,7 +178,7 @@ function Admin() {
                             </div>
 
                             <div className="col-xs-12 col-lg-3 col-md-6 my-1">
-                                <div className="card shadow  bg-secondary text-dark bg-opacity-25 borders-grey" style={{ width: 15 + 'rem' }}>
+                                <div className="card shadow-lg bg-secondary text-dark bg-opacity-25 borders-grey" style={{ width: 15 + 'rem' }}>
                                     <div className="card-body">
                                         <h5 className="card-subtitle mb-2"><i class="bi bi-slash-circle text-secondary mx-2"></i>Blocked </h5>
                                         <hr />
@@ -200,10 +201,10 @@ function Admin() {
 
                         <hr />
                         
-
-
-                        {/* <MuiThemeProvider theme={theme}> */}
-                        <MaterialTable
+                        <div className="row my-5">
+                            <div className="col-lg-9 col-xs-12 ">
+ {/* <MuiThemeProvider theme={theme}> */}
+ <MaterialTable
                             onRowClick={(event, rowData) => fetchUsers(rowData.userId)}
 
                             data={userList}
@@ -264,6 +265,11 @@ function Admin() {
                             title="USER RECORDS"
                         />
                         {/* </MuiThemeProvider>  */}
+                            </div>
+                            <div className="col-lg-3 col-xs-12"><Chart /></div>
+                        </div>
+
+                       
 
 
 
